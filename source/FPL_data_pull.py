@@ -253,6 +253,27 @@ def parse_players(players):
 
     return player_dict
 
+def add_classifier(stats_df, variable = 'total_points', low_cutoff = 2, mid_cutoff = 6):
+    c = []
+    for ind, row in stats_df.iterrows():
+        v = row[variable]
+        c.append(classify(v, low_cutoff, mid_cutoff))
+
+    stats_df['classifier'] = c
+    stats_df = stats_df.drop(labels = [variable], axis = 1)
+
+    return stats_df
+
+
+def classify(variable,low_cutoff, mid_cutoff):
+    if variable <= low_cutoff:
+        return 'low'
+    elif (variable > low_cutoff) & (variable <= mid_cutoff):
+        return 'mid'
+    else:
+        return 'high'
+
+
 
 
 
